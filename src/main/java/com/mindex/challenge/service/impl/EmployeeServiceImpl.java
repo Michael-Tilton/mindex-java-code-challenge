@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -96,6 +98,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             return 0L;
         }
 
+        Set<String> countedEmployeeIds = new HashSet<>();
         long count = 0L;
         Queue<Employee> breadthFirstTraversal = new LinkedList<>(employee.getDirectReports());
         while (breadthFirstTraversal.size() > 0) {
@@ -104,7 +107,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 // Sample data shows that Employee object(s) in Direct Report list may be incomplete.
                 // For an example, all fields are NULL except for employeeId on John Lennon's direct reports.
                 // Call function read() using the employeeId to get a 'complete' Employee object
-                if (currentEmployee.getEmployeeId() == null || currentEmployee.getEmployeeId().length() == 0) {
+                if (currentEmployee.getEmployeeId() == null || currentEmployee.getEmployeeId().length() == 0 ||
+                        countedEmployeeIds.contains(currentEmployee.getEmployeeId())) {
                     continue;
                 }
                 try{
@@ -112,6 +116,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
                     // increment for currentEmployee
                     count++;
+
+                    // add current employee to counted HashSet
+                    countedEmployeeIds.add(currentEmployee.getEmployeeId());
 
                     // Check currentEmployee for their direct reports.  If any direct reports exist, add to queue.
                     if (currentEmployee.getDirectReports() != null && currentEmployee.getDirectReports().size() > 0) {
