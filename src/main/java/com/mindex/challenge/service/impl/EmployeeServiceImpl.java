@@ -97,6 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee == null || employee.getDirectReports() == null || employee.getDirectReports().size() == 0) {
             return 0L;
         }
+        // We instantiate a HashSet to avoid infinite loop.  Breadth First Search should not repeat traversal for any Employee
 
         Set<String> countedEmployeeIds = new HashSet<>();
         long count = 0L;
