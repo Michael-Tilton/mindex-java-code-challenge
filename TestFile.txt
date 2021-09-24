@@ -1,3 +1,3 @@
-AdoptOpenJDK is apparently the package of OpenJDK that Paychex is using (or will soon be using) on application servers
+AdoptOpenJDK is apparently the package of OpenJDK used (or will soon be using) on application servers
 -> https://adoptium.net/
 -> the OpenJDK 11 (LTS) version
